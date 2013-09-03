@@ -1,5 +1,5 @@
 %global sname oslo.messaging
-%global milestone a2
+%global milestone a11
 
 Name:       python-oslo-messaging
 Version:    1.2.0
@@ -92,5 +92,8 @@ rm -fr doc/build/html/.buildinfo
 %doc doc/build/html LICENSE
 
 %changelog
+* Tue Sep  3 2013 Mark McLoughlin <markmc@redhat.com> - 1.2.0-0.1.a11
+- Update to a11 development snapshot.
+
 * Mon Aug 12 2013 Mark McLoughlin <markmc@redhat.com> - 1.2.0-0.1.a2
 - Initial package.
