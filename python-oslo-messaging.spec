@@ -1,8 +1,8 @@
 %global sname oslo.messaging
-%global milestone a11
+%global milestone a2
 
 Name:       python-oslo-messaging
-Version:    1.2.0
+Version:    1.3.0
 Release:    0.1.%{milestone}%{?dist}
 Summary:    OpenStack common messaging library
 
@@ -87,11 +87,15 @@ rm -fr doc/build/html/.buildinfo
 %{python_sitelib}/oslo
 %{python_sitelib}/*.egg-info
 %{python_sitelib}/*-nspkg.pth
+%{_bindir}/oslo-messaging-zmq-receiver
 
 %files doc
 %doc doc/build/html LICENSE
 
 %changelog
+* Thu Jan  2 2014 Pádraig Brady <pbrady@redhat.com> - 1.3.0-0.1.a2
+- Update to 1.3.0a2.
+
 * Tue Sep  3 2013 Mark McLoughlin <markmc@redhat.com> - 1.2.0-0.1.a11
 - Update to a11 development snapshot.
 
