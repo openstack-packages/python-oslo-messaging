@@ -1,5 +1,5 @@
 %global sname oslo.messaging
-%global milestone a2
+%global milestone a7
 
 Name:       python-oslo-messaging
 Version:    1.3.0
@@ -93,6 +93,9 @@ rm -fr doc/build/html/.buildinfo
 %doc doc/build/html LICENSE
 
 %changelog
+* Tue Feb 11 2014 Pádraig Brady <pbrady@redhat.com> - 1.3.0-0.1.a7
+- Update to 1.3.0a7.
+
 * Thu Jan  2 2014 Pádraig Brady <pbrady@redhat.com> - 1.3.0-0.1.a2
 - Update to 1.3.0a2.
 
