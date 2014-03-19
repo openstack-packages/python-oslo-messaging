@@ -64,6 +64,9 @@ sed -i '/setup_requires/d; /install_requires/d; /dependency_links/d' setup.py
 # to distutils requires_dist config
 rm -rf {test-,}requirements.txt
 
+# make doc build compatible with python-oslo-sphinx RPM
+sed -i 's/oslosphinx/oslo.sphinx/' doc/source/conf.py
+
 %build
 %{__python} setup.py build
 
