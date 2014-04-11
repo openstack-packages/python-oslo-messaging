@@ -3,7 +3,7 @@
 
 Name:       python-oslo-messaging
 Version:    1.3.0
-Release:    0.1.%{milestone}%{?dist}
+Release:    0.2.%{milestone}%{?dist}
 Summary:    OpenStack common messaging library
 
 Group:      Development/Languages
@@ -17,6 +17,8 @@ Requires:   python-iso8601
 Requires:   python-oslo-config
 Requires:   python-six
 Requires:   python-stevedore
+Requires:   python-kombu
+Requires:   python-qpid
 
 # FIXME: this dependency will go away soon
 Requires:   python-eventlet
@@ -96,6 +98,9 @@ rm -fr doc/build/html/.buildinfo
 %doc doc/build/html LICENSE
 
 %changelog
+* Fri Apr 11 2014 Pádraig Brady <pbrady@redhat.com> - 1.3.0-0.2.a9
+- Add dependencies on python-kombu and python-qpid
+
 * Tue Mar 18 2014 Pádraig Brady <pbrady@redhat.com> - 1.3.0-0.1.a9
 - Latest upstream
 
