@@ -45,11 +45,6 @@ Group:      Documentation
 BuildRequires: python-sphinx
 BuildRequires: python-oslo-sphinx
 
-# Needed for autoindex which imports the code
-BuildRequires: python-iso8601
-BuildRequires: python-oslo-config
-BuildRequires: python-stevedore
-
 %description doc
 Documentation for the oslo.messaging library.
 
