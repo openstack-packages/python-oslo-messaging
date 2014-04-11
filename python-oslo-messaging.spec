@@ -17,6 +17,7 @@ Requires:   python-iso8601
 Requires:   python-oslo-config
 Requires:   python-six
 Requires:   python-stevedore
+Requires:   PyYAML
 Requires:   python-kombu
 Requires:   python-qpid
 
@@ -99,7 +100,7 @@ rm -fr doc/build/html/.buildinfo
 
 %changelog
 * Fri Apr 11 2014 Pádraig Brady <pbrady@redhat.com> - 1.3.0-0.2.a9
-- Add dependencies on python-kombu and python-qpid
+- Add dependencies on python-kombu, python-qpid, and PyYAML
 
 * Tue Mar 18 2014 Pádraig Brady <pbrady@redhat.com> - 1.3.0-0.1.a9
 - Latest upstream
