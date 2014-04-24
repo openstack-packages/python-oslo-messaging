@@ -22,7 +22,7 @@ Requires:   python-kombu
 Requires:   python-qpid
 
 # FIXME: this dependency will go away soon
-Requires:   python-eventlet
+Requires:   python-eventlet >= 0.13.0
 
 BuildRequires: python2-devel
 BuildRequires: python-setuptools
