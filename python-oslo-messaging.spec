@@ -1,15 +1,15 @@
 %global sname oslo.messaging
-%global milestone a9
+%global milestone gf61a889
 
 Name:       python-oslo-messaging
-Version:    1.3.0
-Release:    0.2.%{milestone}%{?dist}
+Version:    1.3.0.2
+Release:    1%{?dist}
 Summary:    OpenStack common messaging library
 
 Group:      Development/Languages
 License:    ASL 2.0
 URL:        https://launchpad.net/oslo
-Source0:    http://tarballs.openstack.org/oslo.messaging/%{sname}-%{version}%{milestone}.tar.gz
+Source0:    http://tarballs.openstack.org/oslo.messaging/%{sname}-%{version}.tar.gz
 
 BuildArch:  noarch
 Requires:   python-setuptools
@@ -54,9 +54,9 @@ BuildRequires: python-stevedore
 Documentation for the oslo.messaging library.
 
 %prep
-%setup -q -n %{sname}-%{version}%{milestone}
+%setup -q -n %{sname}-%{version}.%{milestone}
 
-sed -i 's/%{version}%{milestone}/%{version}/' PKG-INFO
+sed -i 's/\.\?%{milestone}//' PKG-INFO
 
 # Remove bundled egg-info
 rm -rf %{sname}.egg-info
@@ -99,6 +99,10 @@ rm -fr doc/build/html/.buildinfo
 %doc doc/build/html LICENSE
 
 %changelog
+* Thu Apr 24 2014 Pádraig Brady <pbrady@redhat.com> - 1.3.0.2-1
+- Update to icehouse stable release
+- Add dependency on newer python-eventlet
+
 * Fri Apr 11 2014 Pádraig Brady <pbrady@redhat.com> - 1.3.0-0.2.a9
 - Add dependencies on python-kombu, python-qpid, and PyYAML
 
