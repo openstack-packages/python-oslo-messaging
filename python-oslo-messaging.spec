@@ -3,7 +3,7 @@
 
 Name:       python-oslo-messaging
 Version:    1.3.0.2
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    OpenStack common messaging library
 
 Group:      Development/Languages
@@ -15,7 +15,7 @@ BuildArch:  noarch
 Requires:   python-setuptools
 Requires:   python-iso8601
 Requires:   python-oslo-config
-Requires:   python-six
+Requires:   python-six >= 1.6
 Requires:   python-stevedore
 Requires:   PyYAML
 Requires:   python-kombu
@@ -99,6 +99,9 @@ rm -fr doc/build/html/.buildinfo
 %doc doc/build/html LICENSE
 
 %changelog
+* Tue May 06 2014 Pádraig Brady <pbrady@redhat.com> - 1.3.0.2-2
+- Update python-six dependency to >= 1.6 to support Icehouse
+
 * Thu Apr 24 2014 Pádraig Brady <pbrady@redhat.com> - 1.3.0.2-1
 - Update to icehouse stable release
 - Add dependency on newer python-eventlet
