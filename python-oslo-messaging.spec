@@ -3,7 +3,7 @@
 
 Name:       python-oslo-messaging
 Version:    1.3.0.2
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    OpenStack common messaging library
 
 Group:      Development/Languages
@@ -99,6 +99,9 @@ rm -fr doc/build/html/.buildinfo
 %doc doc/build/html LICENSE
 
 %changelog
+* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3.0.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Tue May 06 2014 Pádraig Brady <pbrady@redhat.com> - 1.3.0.2-2
 - Update python-six dependency to >= 1.6 to support Icehouse
 
