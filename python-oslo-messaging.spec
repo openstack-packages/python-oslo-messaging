@@ -3,13 +3,14 @@
 
 Name:       python-oslo-messaging
 Version:    1.3.0.2
-Release:    3%{?dist}
+Release:    4%{?dist}
 Summary:    OpenStack common messaging library
 
 Group:      Development/Languages
 License:    ASL 2.0
 URL:        https://launchpad.net/oslo
 Source0:    http://tarballs.openstack.org/oslo.messaging/%{sname}-%{version}.tar.gz
+Patch0:     ensure-routing-key-specified-for-qpid.patch
 
 BuildArch:  noarch
 Requires:   python-setuptools
@@ -56,6 +57,8 @@ Documentation for the oslo.messaging library.
 %prep
 %setup -q -n %{sname}-%{version}.%{milestone}
 
+%patch0 -p1
+
 sed -i 's/\.\?%{milestone}//' PKG-INFO
 
 # Remove bundled egg-info
@@ -99,6 +102,9 @@ rm -fr doc/build/html/.buildinfo
 %doc doc/build/html LICENSE
 
 %changelog
+* Tue Jun 10 2014 Pádraig Brady <pbrady@redhat.com> - 1.3.0.2-4
+- Fix message routing with newer QPID #1103800
+
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3.0.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
