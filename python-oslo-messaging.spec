@@ -1,26 +1,26 @@
 %global sname oslo.messaging
-%global milestone gf61a889
+%global milestone a3
 
 Name:       python-oslo-messaging
-Version:    1.3.0.2
-Release:    4%{?dist}
+Version:    1.4.0.0
+Release:    1%{?dist}
 Summary:    OpenStack common messaging library
 
 Group:      Development/Languages
 License:    ASL 2.0
 URL:        https://launchpad.net/oslo
-Source0:    http://tarballs.openstack.org/oslo.messaging/%{sname}-%{version}.tar.gz
-Patch0:     ensure-routing-key-specified-for-qpid.patch
+Source0:    http://tarballs.openstack.org/oslo.messaging/%{sname}-%{version}%{milestone}.tar.gz
 
 BuildArch:  noarch
 Requires:   python-setuptools
 Requires:   python-iso8601
-Requires:   python-oslo-config
+Requires:   python-oslo-config >= 1:1.2.1
 Requires:   python-six >= 1.6
 Requires:   python-stevedore
 Requires:   PyYAML
 Requires:   python-kombu
 Requires:   python-qpid
+Requires:   python-babel
 
 # FIXME: this dependency will go away soon
 Requires:   python-eventlet >= 0.13.0
@@ -49,17 +49,18 @@ BuildRequires: python-oslo-sphinx
 # Needed for autoindex which imports the code
 BuildRequires: python-iso8601
 BuildRequires: python-oslo-config
+BuildRequires: python-six
 BuildRequires: python-stevedore
+BuildRequires: PyYAML
+BuildRequires: python-babel
 
 %description doc
 Documentation for the oslo.messaging library.
 
 %prep
-%setup -q -n %{sname}-%{version}.%{milestone}
+%setup -q -n %{sname}-%{version}%{milestone}
 
-%patch0 -p1
-
-sed -i 's/\.\?%{milestone}//' PKG-INFO
+sed -i 's/%{version}\.\?%{milestone}/%{version}/' PKG-INFO
 
 # Remove bundled egg-info
 rm -rf %{sname}.egg-info
@@ -102,6 +103,9 @@ rm -fr doc/build/html/.buildinfo
 %doc doc/build/html LICENSE
 
 %changelog
+* Wed Jul 09 2014 Pádraig Brady <pbrady@redhat.com> - 1.4.0.0-1
+- Latest upstream
+
 * Tue Jun 10 2014 Pádraig Brady <pbrady@redhat.com> - 1.3.0.2-4
 - Fix message routing with newer QPID #1103800
 
