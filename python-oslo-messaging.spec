@@ -1,5 +1,4 @@
 %global sname oslo.messaging
-%global milestone a3
 
 Name:       python-oslo-messaging
 Version:    1.4.0.0
@@ -58,9 +57,9 @@ BuildRequires: python-babel
 Documentation for the oslo.messaging library.
 
 %prep
-%setup -q -n %{sname}-%{version}%{milestone}
+%setup -q -n %{sname}-%{upstream_version}
 
-sed -i 's/%{version}\.\?%{milestone}/%{version}/' PKG-INFO
+sed -i 's/%{upstream_version}/%{version}/' PKG-INFO
 
 # Remove bundled egg-info
 rm -rf %{sname}.egg-info
@@ -70,9 +69,6 @@ sed -i '/setup_requires/d; /install_requires/d; /dependency_links/d' setup.py
 # Remove the requirements file so that pbr hooks don't add it
 # to distutils requires_dist config
 rm -rf {test-,}requirements.txt
-
-# make doc build compatible with python-oslo-sphinx RPM
-sed -i 's/oslosphinx/oslo.sphinx/' doc/source/conf.py
 
 %build
 %{__python} setup.py build
