@@ -1,9 +1,9 @@
 %global sname oslo.messaging
-%global milestone a3
+%global milestone a4
 
 Name:       python-oslo-messaging
 Version:    1.4.0.0
-Release:    1%{?dist}
+Release:    2.%{milestone}%{?dist}
 Summary:    OpenStack common messaging library
 
 Group:      Development/Languages
@@ -103,6 +103,9 @@ rm -fr doc/build/html/.buildinfo
 %doc doc/build/html LICENSE
 
 %changelog
+* Sat Sep 06 2014 Alan Pevec <apevec@redhat.com> - 1.4.0.0-1.a4
+- Latest upstream
+
 * Wed Jul 09 2014 Pádraig Brady <pbrady@redhat.com> - 1.4.0.0-1
 - Latest upstream
 
