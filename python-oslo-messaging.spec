@@ -3,13 +3,13 @@
 
 Name:       python-oslo-messaging
 Version:    1.4.0.0
-Release:    3.%{milestone}%{?dist}
+Release:    4%{?dist}
 Summary:    OpenStack common messaging library
 
 Group:      Development/Languages
 License:    ASL 2.0
 URL:        https://launchpad.net/oslo
-Source0:    http://tarballs.openstack.org/oslo.messaging/%{sname}-%{version}%{milestone}.tar.gz
+Source0:    https://pypi.python.org/packages/source/o/%{sname}/%{sname}-1.4.0.tar.gz
 
 BuildArch:  noarch
 Requires:   python-setuptools
@@ -58,9 +58,7 @@ BuildRequires: python-babel
 Documentation for the oslo.messaging library.
 
 %prep
-%setup -q -n %{sname}-%{version}%{milestone}
-
-sed -i 's/%{version}\.\?%{milestone}/%{version}/' PKG-INFO
+%setup -q -n %{sname}-1.4.0
 
 # Remove bundled egg-info
 rm -rf %{sname}.egg-info
@@ -103,6 +101,9 @@ rm -fr doc/build/html/.buildinfo
 %doc doc/build/html LICENSE
 
 %changelog
+* Sun Sep 21 2014 Alan Pevec <apevec@redhat.com> - 1.4.0.0-4
+- Final release 1.4.0
+
 * Wed Sep 17 2014 Alan Pevec <apevec@redhat.com> - 1.4.0.0-3.a5
 - Latest upstream
 
