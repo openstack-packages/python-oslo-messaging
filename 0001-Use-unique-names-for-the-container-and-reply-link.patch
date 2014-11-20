@@ -1,0 +1,57 @@
+From f95d1dd32dfe887d4d191f3be9f8744b49e8d712 Mon Sep 17 00:00:00 2001
+From: Kenneth Giusti <kgiusti@gmail.com>
+Date: Fri, 14 Nov 2014 17:06:58 -0500
+Subject: [PATCH] Use unique names for the container and reply link
+
+This patch adds a unique name for the container's reply link, and
+delays the creation of the container's name until a connection needs
+to be created.  These changes should allow clients to perform a
+process fork safely prior to initiating a connection to the messaging
+service.
+
+Change-Id: I5455cb0f8d380d6b65f1268b34a91355cbb14aa2
+Closes-Bug: #1392868
+---
+ oslo/messaging/_drivers/protocols/amqp/controller.py | 7 ++++---
+ oslo/messaging/_drivers/protocols/amqp/eventloop.py  | 2 +-
+ 2 files changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/oslo/messaging/_drivers/protocols/amqp/controller.py b/oslo/messaging/_drivers/protocols/amqp/controller.py
+index d3d1421..2550178 100644
+--- a/oslo/messaging/_drivers/protocols/amqp/controller.py
++++ b/oslo/messaging/_drivers/protocols/amqp/controller.py
+@@ -101,8 +101,11 @@ class Replies(pyngus.ReceiverEventHandler):
+         self._correlation = {}  # map of correlation-id to response queue
+         self._ready = False
+         self._on_ready = on_ready
++        rname = "Consumer-%s:src=[dynamic]:tgt=replies" % uuid.uuid4().hex
+         self._receiver = connection.create_receiver("replies",
+-                                                    event_handler=self)
++                                                    event_handler=self,
++                                                    name=rname)
++
+         # capacity determines the maximum number of reply messages this link
+         # can receive. As messages are received and credit is consumed, this
+         # driver will 'top up' the credit back to max capacity.  This number
+@@ -296,8 +299,6 @@ class Controller(pyngus.ConnectionEventHandler):
+         self.broadcast_prefix = config.amqp1.broadcast_prefix
+         self.group_request_prefix = config.amqp1.group_request_prefix
+         self._container_name = config.amqp1.container_name
+-        if not self._container_name:
+-            self._container_name = "container-%s" % uuid.uuid4().hex
+         self.idle_timeout = config.amqp1.idle_timeout
+         self.trace_protocol = config.amqp1.trace
+         self.ssl_ca_file = config.amqp1.ssl_ca_file
+diff --git a/oslo/messaging/_drivers/protocols/amqp/eventloop.py b/oslo/messaging/_drivers/protocols/amqp/eventloop.py
+index 806f271..911ac52 100644
+--- a/oslo/messaging/_drivers/protocols/amqp/eventloop.py
++++ b/oslo/messaging/_drivers/protocols/amqp/eventloop.py
+@@ -230,7 +230,7 @@ class Thread(threading.Thread):
+ 
+         # Configure a container
+         if container_name is None:
+-            container_name = uuid.uuid4().hex
++            container_name = "Container-" + uuid.uuid4().hex
+         self._container = pyngus.Container(container_name)
+ 
+         self.name = "Thread for Proton container: %s" % self._container.name

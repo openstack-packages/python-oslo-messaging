@@ -2,14 +2,18 @@
 %global milestone a5
 
 Name:       python-oslo-messaging
-Version:    1.4.0.0
-Release:    4%{?dist}
+Version:    1.4.1
+Release:    1%{?dist}
 Summary:    OpenStack common messaging library
 
 Group:      Development/Languages
 License:    ASL 2.0
 URL:        https://launchpad.net/oslo
-Source0:    https://pypi.python.org/packages/source/o/%{sname}/%{sname}-1.4.0.tar.gz
+Source0:    https://pypi.python.org/packages/source/o/%{sname}/%{sname}-1.4.1.tar.gz
+
+Patch0001: 0001-Use-unique-names-for-the-container-and-reply-link.patch
+Patch0002: 0002-Provide-better-detection-of-failures-during-message-.patch
+Patch0003: 0003-Enable-user-authentication-in-the-AMQP-1.0-driver.patch
 
 BuildArch:  noarch
 Requires:   python-setuptools
@@ -58,7 +62,11 @@ BuildRequires: python-babel
 Documentation for the oslo.messaging library.
 
 %prep
-%setup -q -n %{sname}-1.4.0
+%setup -q -n %{sname}-%{version}
+
+%patch0001 -p1
+%patch0002 -p1
+%patch0003 -p1
 
 # Remove bundled egg-info
 rm -rf %{sname}.egg-info
@@ -101,6 +109,9 @@ rm -fr doc/build/html/.buildinfo
 %doc doc/build/html LICENSE
 
 %changelog
+* Fri Nov 21 2014 Alan Pevec <apevec@redhat.com> - 1.4.1-1
+- AMQP 1.0 driver fixes (Ken Giusti) LP#1392868 LP#1377228 LP#1385445
+
 * Sun Sep 21 2014 Alan Pevec <apevec@redhat.com> - 1.4.0.0-4
 - Final release 1.4.0
 
