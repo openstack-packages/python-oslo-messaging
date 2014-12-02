@@ -1,4 +1,4 @@
-From 9b24553a8fbc874e67489cdd4247d8528ca94b6b Mon Sep 17 00:00:00 2001
+From 25e7a26422c4c43207b180077c762af77dff0d1f Mon Sep 17 00:00:00 2001
 From: Kenneth Giusti <kgiusti@gmail.com>
 Date: Wed, 29 Oct 2014 17:39:40 -0400
 Subject: [PATCH] Enable user authentication in the AMQP 1.0 driver
@@ -11,6 +11,7 @@ configured to use SASL PLAIN authentication.
 
 Closes-Bug: #1385445
 Change-Id: Ib9279ed40b0f4cff62e1c742069c8f49f5625659
+(cherry picked from commit f43fe66be05cbad316a835f3308188515a93b6eb)
 
 Conflicts:
 	oslo/messaging/_drivers/protocols/amqp/controller.py
@@ -22,10 +23,10 @@ Conflicts:
  4 files changed, 121 insertions(+), 36 deletions(-)
 
 diff --git a/oslo/messaging/_drivers/protocols/amqp/controller.py b/oslo/messaging/_drivers/protocols/amqp/controller.py
-index 1dab2bd..029dd33 100644
+index d3d1421..eddd9a3 100644
 --- a/oslo/messaging/_drivers/protocols/amqp/controller.py
 +++ b/oslo/messaging/_drivers/protocols/amqp/controller.py
-@@ -25,17 +25,18 @@ functions scheduled by the Controller.
+@@ -25,16 +25,17 @@ functions scheduled by the Controller.
  """
  
  import abc
@@ -39,13 +40,12 @@ index 1dab2bd..029dd33 100644
  from six import moves
  
  from oslo.config import cfg
- from oslo import messaging
  from oslo.messaging._drivers.protocols.amqp import eventloop
 +from oslo.messaging import transport
  
  LOG = logging.getLogger(__name__)
  
-@@ -248,25 +249,24 @@ class Server(pyngus.ReceiverEventHandler):
+@@ -233,25 +234,24 @@ class Server(pyngus.ReceiverEventHandler):
  
  
  class Hosts(object):
@@ -79,7 +79,7 @@ index 1dab2bd..029dd33 100644
  
      def next(self):
          if len(self._entries) > 1:
-@@ -277,7 +277,7 @@ class Hosts(object):
+@@ -262,7 +262,7 @@ class Hosts(object):
          return '<Hosts ' + str(self) + '>'
  
      def __str__(self):
@@ -88,7 +88,7 @@ index 1dab2bd..029dd33 100644
  
  
  class Controller(pyngus.ConnectionEventHandler):
-@@ -470,8 +470,7 @@ class Controller(pyngus.ConnectionEventHandler):
+@@ -436,8 +436,7 @@ class Controller(pyngus.ConnectionEventHandler):
  
      def _do_connect(self):
          """Establish connection and reply subscription on processor thread."""
@@ -98,7 +98,7 @@ index 1dab2bd..029dd33 100644
          conn_props = {}
          if self.idle_timeout:
              conn_props["idle-time-out"] = float(self.idle_timeout)
-@@ -488,7 +487,7 @@ class Controller(pyngus.ConnectionEventHandler):
+@@ -454,7 +453,7 @@ class Controller(pyngus.ConnectionEventHandler):
                                              self.ssl_key_file,
                                              self.ssl_key_password)
              conn_props["x-ssl-allow-cleartext"] = self.ssl_allow_insecure
@@ -107,7 +107,7 @@ index 1dab2bd..029dd33 100644
                                                           handler=self,
                                                           properties=conn_props)
          LOG.debug("Connection initiated")
-@@ -611,6 +610,17 @@ class Controller(pyngus.ConnectionEventHandler):
+@@ -577,6 +576,17 @@ class Controller(pyngus.ConnectionEventHandler):
                       reason or "no reason given")
              self._socket_connection.connection.close()
  
@@ -125,7 +125,7 @@ index 1dab2bd..029dd33 100644
      def _complete_shutdown(self):
          """The AMQP Connection has closed, and the driver shutdown is complete.
          Clean up controller resources and exit.
-@@ -650,6 +660,6 @@ class Controller(pyngus.ConnectionEventHandler):
+@@ -616,6 +626,6 @@ class Controller(pyngus.ConnectionEventHandler):
              self._reconnecting = False
              self._senders = {}
              self._socket_connection.reset()
@@ -136,10 +136,10 @@ index 1dab2bd..029dd33 100644
 +            LOG.info("Reconnecting to: %s:%i", host.hostname, host.port)
 +            self._socket_connection.connect(host)
 diff --git a/oslo/messaging/_drivers/protocols/amqp/driver.py b/oslo/messaging/_drivers/protocols/amqp/driver.py
-index 1ea526d..2adaebf 100644
+index b15c972..2d72994 100644
 --- a/oslo/messaging/_drivers/protocols/amqp/driver.py
 +++ b/oslo/messaging/_drivers/protocols/amqp/driver.py
-@@ -243,11 +243,9 @@ class ProtonDriver(base.BaseDriver):
+@@ -231,11 +231,9 @@ class ProtonDriver(base.BaseDriver):
  
          super(ProtonDriver, self).__init__(conf, url, default_exchange,
                                             allowed_remote_exmods)
@@ -153,7 +153,7 @@ index 1ea526d..2adaebf 100644
          # lazy connection setup - don't cause the controller to connect until
          # after the first messaging request:
 diff --git a/oslo/messaging/_drivers/protocols/amqp/eventloop.py b/oslo/messaging/_drivers/protocols/amqp/eventloop.py
-index 911ac52..110440c 100644
+index 806f271..f3d235a 100644
 --- a/oslo/messaging/_drivers/protocols/amqp/eventloop.py
 +++ b/oslo/messaging/_drivers/protocols/amqp/eventloop.py
 @@ -101,12 +101,12 @@ class _SocketConnection():
@@ -213,10 +213,10 @@ index 911ac52..110440c 100644
  
      def run(self):
 diff --git a/tests/test_amqp_driver.py b/tests/test_amqp_driver.py
-index 84fa6eb..9299d1f 100644
+index 7df6eb1..8ecd031 100644
 --- a/tests/test_amqp_driver.py
 +++ b/tests/test_amqp_driver.py
-@@ -291,6 +291,62 @@ class TestAmqpNotification(_AmqpBrokerTestCase):
+@@ -281,6 +281,62 @@ class TestAmqpNotification(_AmqpBrokerTestCase):
  
  
  @testtools.skipUnless(pyngus, "proton modules not present")
@@ -279,7 +279,7 @@ index 84fa6eb..9299d1f 100644
  class TestFailover(test_utils.BaseTestCase):
  
      def setUp(self):
-@@ -370,7 +426,8 @@ class FakeBroker(threading.Thread):
+@@ -360,7 +416,8 @@ class FakeBroker(threading.Thread):
          class Connection(pyngus.ConnectionEventHandler):
              """A single AMQP connection."""
  
@@ -289,7 +289,7 @@ index 84fa6eb..9299d1f 100644
                  """Create a Connection using socket_."""
                  self.socket = socket_
                  self.name = name
-@@ -378,8 +435,11 @@ class FakeBroker(threading.Thread):
+@@ -368,8 +425,11 @@ class FakeBroker(threading.Thread):
                  self.connection = server.container.create_connection(name,
                                                                       self)
                  self.connection.user_context = self
@@ -303,7 +303,7 @@ index 84fa6eb..9299d1f 100644
                  self.connection.open()
                  self.sender_links = set()
                  self.closed = False
-@@ -444,7 +504,14 @@ class FakeBroker(threading.Thread):
+@@ -434,7 +494,14 @@ class FakeBroker(threading.Thread):
                                          link_handle, addr)
  
              def sasl_step(self, connection, pn_sasl):
@@ -319,7 +319,7 @@ index 84fa6eb..9299d1f 100644
  
          class SenderLink(pyngus.SenderEventHandler):
              """An AMQP sending link."""
-@@ -521,7 +588,9 @@ class FakeBroker(threading.Thread):
+@@ -511,7 +578,9 @@ class FakeBroker(threading.Thread):
                   broadcast_prefix="broadcast",
                   group_prefix="unicast",
                   address_separator=".",
@@ -330,7 +330,7 @@ index 84fa6eb..9299d1f 100644
          """Create a fake broker listening on sock_addr:sock_port."""
          if not pyngus:
              raise AssertionError("pyngus module not present")
-@@ -530,6 +599,8 @@ class FakeBroker(threading.Thread):
+@@ -520,6 +589,8 @@ class FakeBroker(threading.Thread):
          self._broadcast_prefix = broadcast_prefix + address_separator
          self._group_prefix = group_prefix + address_separator
          self._address_separator = address_separator
@@ -339,7 +339,7 @@ index 84fa6eb..9299d1f 100644
          self._wakeup_pipe = os.pipe()
          self._my_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
          self._my_socket.bind((sock_addr, sock_port))
-@@ -589,7 +660,9 @@ class FakeBroker(threading.Thread):
+@@ -579,7 +650,9 @@ class FakeBroker(threading.Thread):
                      # create a new Connection for it:
                      client_socket, client_address = self._my_socket.accept()
                      name = str(client_address)
