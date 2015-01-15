@@ -11,8 +11,6 @@ License:    ASL 2.0
 URL:        https://launchpad.net/oslo
 Source0:    https://pypi.python.org/packages/source/o/%{sname}/%{sname}-1.4.0.tar.gz
 
-Patch0001: 0001-messaging-setup.cfg-fix.patch
-
 BuildArch:  noarch
 Requires:   python-setuptools
 Requires:   python-iso8601
@@ -67,8 +65,6 @@ Documentation for the oslo.messaging library.
 
 %prep
 %setup -q -n %{sname}-%{upstream_version}
-
-%patch0001 -p1
 
 # Remove bundled egg-info
 rm -rf %{sname}.egg-info
