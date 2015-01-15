@@ -32,7 +32,6 @@ Requires:   python-eventlet >= 0.13.0
 BuildRequires: python2-devel
 BuildRequires: python-setuptools
 BuildRequires: python-pbr
-BuildRequires: python-d2to1
 
 %description
 The Oslo project intends to produce a python library containing
