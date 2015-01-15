@@ -11,10 +11,15 @@ License:    ASL 2.0
 URL:        https://launchpad.net/oslo
 Source0:    https://pypi.python.org/packages/source/o/%{sname}/%{sname}-1.4.0.tar.gz
 
+Patch0001: 0001-messaging-setup.cfg-fix.patch
+
 BuildArch:  noarch
 Requires:   python-setuptools
 Requires:   python-iso8601
 Requires:   python-oslo-config >= 1:1.2.1
+Requires:   python-oslo-utils
+Requires:   python-oslo-serialization
+Requires:   python-oslo-i18n
 Requires:   python-six >= 1.6
 Requires:   python-stevedore
 Requires:   PyYAML
@@ -49,6 +54,9 @@ BuildRequires: python-oslo-sphinx
 # Needed for autoindex which imports the code
 BuildRequires: python-iso8601
 BuildRequires: python-oslo-config
+BuildRequires: python-oslo-utils
+BuildRequires: python-oslo-serialization
+BuildRequires: python-oslo-i18n
 BuildRequires: python-six
 BuildRequires: python-stevedore
 BuildRequires: PyYAML
@@ -59,6 +67,8 @@ Documentation for the oslo.messaging library.
 
 %prep
 %setup -q -n %{sname}-%{upstream_version}
+
+%patch0001 -p1
 
 # Remove bundled egg-info
 rm -rf %{sname}.egg-info
@@ -90,6 +100,7 @@ rm -fr doc/build/html/.buildinfo
 %files
 %doc README.rst LICENSE
 %{python_sitelib}/oslo
+%{python_sitelib}/oslo_messaging
 %{python_sitelib}/*.egg-info
 %{python_sitelib}/*-nspkg.pth
 %{_bindir}/oslo-messaging-zmq-receiver
