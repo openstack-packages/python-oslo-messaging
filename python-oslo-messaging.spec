@@ -66,8 +66,6 @@ Documentation for the oslo.messaging library.
 %prep
 %setup -q -n %{sname}-%{upstream_version}
 
-# Remove bundled egg-info
-rm -rf %{sname}.egg-info
 # let RPM handle deps
 sed -i '/setup_requires/d; /install_requires/d; /dependency_links/d' setup.py
 
