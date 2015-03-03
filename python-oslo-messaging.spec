@@ -18,6 +18,7 @@ Requires:   python-oslo-config >= 1:1.2.1
 Requires:   python-oslo-utils
 Requires:   python-oslo-serialization
 Requires:   python-oslo-i18n
+Requires:   python-oslo-middleware
 Requires:   python-six >= 1.6
 Requires:   python-stevedore
 Requires:   PyYAML
