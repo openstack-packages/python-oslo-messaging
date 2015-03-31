@@ -1,33 +1,31 @@
-%global sname oslo.messaging
-%global milestone a5
+%global pypi_name oslo.messaging
 
 Name:       python-oslo-messaging
-Version:    1.4.1
-Release:    3%{?dist}
+Version:    1.9.0
+Release:    1%{?dist}
 Summary:    OpenStack common messaging library
 
 Group:      Development/Languages
 License:    ASL 2.0
 URL:        https://launchpad.net/oslo
-Source0:    https://pypi.python.org/packages/source/o/%{sname}/%{sname}-1.4.1.tar.gz
-
-Patch0001: 0001-Enable-user-authentication-in-the-AMQP-1.0-driver.patch
-Patch0002: 0002-Create-a-new-connection-when-a-process-fork-has-been.patch
-Patch0003: 0003-Fix-typo-in-reconnect-exception-handler.patch
+Source0:    https://pypi.python.org/packages/source/o/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
 
 BuildArch:  noarch
 Requires:   python-setuptools
 Requires:   python-iso8601
-Requires:   python-oslo-config >= 1:1.2.1
-Requires:   python-six >= 1.6
+Requires:   python-oslo-config >= 1:1.9.3
+Requires:   python-oslo-context
+Requires:   python-oslo-utils
+Requires:   python-oslo-serialization
+Requires:   python-oslo-i18n
+Requires:   python-oslo-middleware
+Requires:   python-six >= 1.9.0
 Requires:   python-stevedore
 Requires:   PyYAML
 Requires:   python-kombu
 Requires:   python-qpid
 Requires:   python-babel
-
-# FIXME: this dependency will go away soon
-Requires:   python-eventlet >= 0.13.0
+Requires:   python-eventlet
 
 BuildRequires: python2-devel
 BuildRequires: python-setuptools
@@ -47,11 +45,14 @@ Summary:    Documentation for OpenStack common messaging library
 Group:      Documentation
 
 BuildRequires: python-sphinx
-BuildRequires: python-oslo-sphinx
+BuildRequires: python-oslo-sphinx >= 2.5.0
 
-# Needed for autoindex which imports the code
+# for API autodoc
 BuildRequires: python-iso8601
 BuildRequires: python-oslo-config
+BuildRequires: python-oslo-utils
+BuildRequires: python-oslo-serialization
+BuildRequires: python-oslo-i18n
 BuildRequires: python-six
 BuildRequires: python-stevedore
 BuildRequires: PyYAML
@@ -61,29 +62,16 @@ BuildRequires: python-babel
 Documentation for the oslo.messaging library.
 
 %prep
-%setup -q -n %{sname}-%{version}
+%setup -q -n %{pypi_name}-%{version}
 
-%patch0001 -p1
-%patch0002 -p1
-%patch0003 -p1
-
-# Remove bundled egg-info
-rm -rf %{sname}.egg-info
 # let RPM handle deps
-sed -i '/setup_requires/d; /install_requires/d; /dependency_links/d' setup.py
-
-# Remove the requirements file so that pbr hooks don't add it
-# to distutils requires_dist config
-rm -rf {test-,}requirements.txt
-
-# make doc build compatible with python-oslo-sphinx RPM
-sed -i 's/oslosphinx/oslo.sphinx/' doc/source/conf.py
+rm -rf requirements.txt
 
 %build
-%{__python} setup.py build
+%{__python2} setup.py build
 
 %install
-%{__python} setup.py install -O1 --skip-build --root %{buildroot}
+%{__python2} setup.py install -O1 --skip-build --root %{buildroot}
 
 # Delete tests
 rm -fr %{buildroot}%{python_sitelib}/tests
@@ -98,16 +86,22 @@ rm -fr doc/build/html/.buildinfo
 %check
 
 %files
-%doc README.rst LICENSE
-%{python_sitelib}/oslo
-%{python_sitelib}/*.egg-info
-%{python_sitelib}/*-nspkg.pth
+%license LICENSE
+%doc README.rst
+%{python2_sitelib}/oslo
+%{python2_sitelib}/oslo_messaging
+%{python2_sitelib}/*.egg-info
+%{python2_sitelib}/*-nspkg.pth
 %{_bindir}/oslo-messaging-zmq-receiver
 
 %files doc
-%doc doc/build/html LICENSE
+%license LICENSE
+%doc doc/build/html
 
 %changelog
+* Tue Mar 31 2015 Alan Pevec <apevec@redhat.com> - 1.9.0-1
+- Update to 1.9.0
+
 * Thu Jan 08 2015 Alan Pevec <apevec@redhat.com> - 1.4.1-3
 - Fix reconnect exception handler (Dan Smith) rhbz#1175685
 
