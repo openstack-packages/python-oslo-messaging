@@ -1,7 +1,7 @@
 %global pypi_name oslo.messaging
 
 Name:       python-oslo-messaging
-Version:    1.9.0
+Version:    1.8.1
 Release:    1%{?dist}
 Summary:    OpenStack common messaging library
 
@@ -99,8 +99,8 @@ rm -fr doc/build/html/.buildinfo
 %doc doc/build/html
 
 %changelog
-* Tue Mar 31 2015 Alan Pevec <apevec@redhat.com> - 1.9.0-1
-- Update to 1.9.0
+* Wed Apr 08 2015 Alan Pevec <alan.pevec@redhat.com> 1.8.1-1
+- Update to upstream 1.8.1
 
 * Thu Jan 08 2015 Alan Pevec <apevec@redhat.com> - 1.4.1-3
 - Fix reconnect exception handler (Dan Smith) rhbz#1175685
