@@ -1,33 +1,31 @@
-%global sname oslo.messaging
-%global milestone a5
+%global pypi_name oslo.messaging
 
 Name:       python-oslo-messaging
 Version:    XXX
-Release:    XXX{?dist}
+Release:    XXX
 Summary:    OpenStack common messaging library
 
 Group:      Development/Languages
 License:    ASL 2.0
 URL:        https://launchpad.net/oslo
-Source0:    https://pypi.python.org/packages/source/o/%{sname}/%{sname}-1.4.0.tar.gz
+Source0:    http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-master.tar.gz
 
 BuildArch:  noarch
 Requires:   python-setuptools
 Requires:   python-iso8601
-Requires:   python-oslo-config >= 1:1.2.1
+Requires:   python-oslo-config >= 1:1.9.3
+Requires:   python-oslo-context
 Requires:   python-oslo-utils
 Requires:   python-oslo-serialization
 Requires:   python-oslo-i18n
 Requires:   python-oslo-middleware
-Requires:   python-six >= 1.6
+Requires:   python-six >= 1.9.0
 Requires:   python-stevedore
 Requires:   PyYAML
 Requires:   python-kombu
 Requires:   python-qpid
 Requires:   python-babel
-
-# FIXME: this dependency will go away soon
-Requires:   python-eventlet >= 0.13.0
+Requires:   python-eventlet
 
 BuildRequires: python2-devel
 BuildRequires: python-setuptools
@@ -47,9 +45,9 @@ Summary:    Documentation for OpenStack common messaging library
 Group:      Documentation
 
 BuildRequires: python-sphinx
-BuildRequires: python-oslo-sphinx
+BuildRequires: python-oslo-sphinx >= 2.5.0
 
-# Needed for autoindex which imports the code
+# for API autodoc
 BuildRequires: python-iso8601
 BuildRequires: python-oslo-config
 BuildRequires: python-oslo-utils
@@ -64,20 +62,16 @@ BuildRequires: python-babel
 Documentation for the oslo.messaging library.
 
 %prep
-%setup -q -n %{sname}-%{upstream_version}
+%setup -q -n %{pypi_name}-%{upstream_version}
 
 # let RPM handle deps
-sed -i '/setup_requires/d; /install_requires/d; /dependency_links/d' setup.py
-
-# Remove the requirements file so that pbr hooks don't add it
-# to distutils requires_dist config
-rm -rf {test-,}requirements.txt
+rm -rf requirements.txt
 
 %build
-%{__python} setup.py build
+%{__python2} setup.py build
 
 %install
-%{__python} setup.py install -O1 --skip-build --root %{buildroot}
+%{__python2} setup.py install -O1 --skip-build --root %{buildroot}
 
 # Delete tests
 rm -fr %{buildroot}%{python_sitelib}/tests
@@ -92,53 +86,16 @@ rm -fr doc/build/html/.buildinfo
 %check
 
 %files
-%doc README.rst LICENSE
-%{python_sitelib}/oslo
-%{python_sitelib}/oslo_messaging
-%{python_sitelib}/*.egg-info
-%{python_sitelib}/*-nspkg.pth
+%license LICENSE
+%doc README.rst
+%{python2_sitelib}/oslo
+%{python2_sitelib}/oslo_messaging
+%{python2_sitelib}/*.egg-info
+%{python2_sitelib}/*-nspkg.pth
 %{_bindir}/oslo-messaging-zmq-receiver
 
 %files doc
-%doc doc/build/html LICENSE
+%license LICENSE
+%doc doc/build/html
 
 %changelog
-* Sun Sep 21 2014 Alan Pevec <apevec@redhat.com> - 1.4.0.0-4
-- Final release 1.4.0
-
-* Wed Sep 17 2014 Alan Pevec <apevec@redhat.com> - 1.4.0.0-3.a5
-- Latest upstream
-
-* Wed Jul 09 2014 Pádraig Brady <pbrady@redhat.com> - 1.4.0.0-1
-- Latest upstream
-
-* Tue Jun 10 2014 Pádraig Brady <pbrady@redhat.com> - 1.3.0.2-4
-- Fix message routing with newer QPID #1103800
-
-* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3.0.2-3
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
-
-* Tue May 06 2014 Pádraig Brady <pbrady@redhat.com> - 1.3.0.2-2
-- Update python-six dependency to >= 1.6 to support Icehouse
-
-* Thu Apr 24 2014 Pádraig Brady <pbrady@redhat.com> - 1.3.0.2-1
-- Update to icehouse stable release
-- Add dependency on newer python-eventlet
-
-* Fri Apr 11 2014 Pádraig Brady <pbrady@redhat.com> - 1.3.0-0.2.a9
-- Add dependencies on python-kombu, python-qpid, and PyYAML
-
-* Tue Mar 18 2014 Pádraig Brady <pbrady@redhat.com> - 1.3.0-0.1.a9
-- Latest upstream
-
-* Tue Feb 11 2014 Pádraig Brady <pbrady@redhat.com> - 1.3.0-0.1.a7
-- Update to 1.3.0a7.
-
-* Thu Jan  2 2014 Pádraig Brady <pbrady@redhat.com> - 1.3.0-0.1.a2
-- Update to 1.3.0a2.
-
-* Tue Sep  3 2013 Mark McLoughlin <markmc@redhat.com> - 1.2.0-0.1.a11
-- Update to a11 development snapshot.
-
-* Mon Aug 12 2013 Mark McLoughlin <markmc@redhat.com> - 1.2.0-0.1.a2
-- Initial package.
