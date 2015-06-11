@@ -51,12 +51,15 @@ BuildRequires: python-oslo-sphinx >= 2.5.0
 BuildRequires: python-iso8601
 BuildRequires: python-oslo-config
 BuildRequires: python-oslo-utils
+BuildRequires: python-oslo-context
 BuildRequires: python-oslo-serialization
 BuildRequires: python-oslo-i18n
 BuildRequires: python-six
 BuildRequires: python-stevedore
 BuildRequires: PyYAML
 BuildRequires: python-babel
+BuildRequires: python-fixtures
+BuildRequires: python-kombu
 
 %description doc
 Documentation for the oslo.messaging library.
