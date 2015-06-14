@@ -1,7 +1,7 @@
 %global pypi_name oslo.messaging
 
 Name:       python-oslo-messaging
-Version:    1.8.2
+Version:    1.8.3
 Release:    1%{?dist}
 Summary:    OpenStack common messaging library
 
@@ -99,6 +99,9 @@ rm -fr doc/build/html/.buildinfo
 %doc doc/build/html
 
 %changelog
+* Sun Jun 14 2015 Haikel Guemar <hguemar@fedoraproject.org> 1.8.3-1
+- Update to upstream 1.8.3
+
 * Thu Apr 30 2015 Alan Pevec <alan.pevec@redhat.com> 1.8.2-1
 - Update to upstream 1.8.2
 
