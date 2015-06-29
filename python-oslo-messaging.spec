@@ -1,8 +1,8 @@
 %global pypi_name oslo.messaging
 
 Name:       python-oslo-messaging
-Version:    1.8.3
-Release:    2%{?dist}
+Version:    1.15.0
+Release:    1%{?dist}
 Summary:    OpenStack common messaging library
 
 Group:      Development/Languages
@@ -13,7 +13,7 @@ Source0:    https://pypi.python.org/packages/source/o/%{pypi_name}/%{pypi_name}-
 BuildArch:  noarch
 Requires:   python-setuptools
 Requires:   python-iso8601
-Requires:   python-oslo-config >= 1:1.9.3
+Requires:   python-oslo-config >= 2:1.11.0
 Requires:   python-oslo-context
 Requires:   python-oslo-utils
 Requires:   python-oslo-serialization
@@ -102,6 +102,9 @@ rm -fr doc/build/html/.buildinfo
 %doc doc/build/html
 
 %changelog
+* Mon Jun 29 2015 Alan Pevec <alan.pevec@redhat.com> 1.15.0-1
+- Update to upstream 1.15.0
+
 * Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.8.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
