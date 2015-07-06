@@ -17,6 +17,7 @@ Requires:   python-oslo-config >= 1:1.9.3
 Requires:   python-oslo-context
 Requires:   python-oslo-utils
 Requires:   python-oslo-serialization
+Requires:   python-oslo-service
 Requires:   python-oslo-i18n
 Requires:   python-oslo-middleware
 Requires:   python-six >= 1.9.0
