@@ -5,7 +5,6 @@ Version:    XXX
 Release:    XXX
 Summary:    OpenStack common messaging library
 
-Group:      Development/Languages
 License:    ASL 2.0
 URL:        https://launchpad.net/oslo
 Source0:    http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-master.tar.gz
@@ -32,6 +31,7 @@ Requires:   python-cachetools
 BuildRequires: python2-devel
 BuildRequires: python-setuptools
 BuildRequires: python-pbr
+BuildRequires: python-oslo-service
 
 %description
 The Oslo project intends to produce a python library containing
@@ -44,7 +44,6 @@ different messaging transports.
 
 %package doc
 Summary:    Documentation for OpenStack common messaging library
-Group:      Documentation
 
 BuildRequires: python-sphinx
 BuildRequires: python-oslo-sphinx >= 2.5.0
@@ -70,7 +69,7 @@ Documentation for the oslo.messaging library.
 %setup -q -n %{pypi_name}-%{upstream_version}
 
 # let RPM handle deps
-rm -rf requirements.txt
+rm -rf {test-,}requirements.txt
 
 %build
 %{__python2} setup.py build
