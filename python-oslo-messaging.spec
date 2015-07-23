@@ -92,10 +92,8 @@ rm -fr doc/build/html/.buildinfo
 %files
 %license LICENSE
 %doc README.rst
-%{python2_sitelib}/oslo
 %{python2_sitelib}/oslo_messaging
 %{python2_sitelib}/*.egg-info
-%{python2_sitelib}/*-nspkg.pth
 %{_bindir}/oslo-messaging-zmq-receiver
 
 %files doc
