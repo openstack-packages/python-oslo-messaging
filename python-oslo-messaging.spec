@@ -27,6 +27,7 @@ Requires:   python-kombu
 Requires:   python-qpid
 Requires:   python-babel
 Requires:   python-eventlet
+Requires:   python-cachetools
 
 BuildRequires: python2-devel
 BuildRequires: python-setuptools
