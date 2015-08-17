@@ -1,11 +1,10 @@
 %global pypi_name oslo.messaging
 
 Name:       python-oslo-messaging
-Version:    1.15.0
+Version:    2.2.0
 Release:    1%{?dist}
 Summary:    OpenStack common messaging library
 
-Group:      Development/Languages
 License:    ASL 2.0
 URL:        https://launchpad.net/oslo
 Source0:    https://pypi.python.org/packages/source/o/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
@@ -13,10 +12,12 @@ Source0:    https://pypi.python.org/packages/source/o/%{pypi_name}/%{pypi_name}-
 BuildArch:  noarch
 Requires:   python-setuptools
 Requires:   python-iso8601
+Requires:   python-futurist
 Requires:   python-oslo-config >= 2:1.11.0
 Requires:   python-oslo-context
 Requires:   python-oslo-utils
 Requires:   python-oslo-serialization
+Requires:   python-oslo-service
 Requires:   python-oslo-i18n
 Requires:   python-oslo-middleware
 Requires:   python-six >= 1.9.0
@@ -26,10 +27,12 @@ Requires:   python-kombu
 Requires:   python-qpid
 Requires:   python-babel
 Requires:   python-eventlet
+Requires:   python-cachetools
 
 BuildRequires: python2-devel
 BuildRequires: python-setuptools
 BuildRequires: python-pbr
+BuildRequires: python-oslo-service
 
 %description
 The Oslo project intends to produce a python library containing
@@ -42,7 +45,6 @@ different messaging transports.
 
 %package doc
 Summary:    Documentation for OpenStack common messaging library
-Group:      Documentation
 
 BuildRequires: python-sphinx
 BuildRequires: python-oslo-sphinx >= 2.5.0
@@ -68,7 +70,7 @@ Documentation for the oslo.messaging library.
 %setup -q -n %{pypi_name}-%{version}
 
 # let RPM handle deps
-rm -rf requirements.txt
+rm -rf {test-,}requirements.txt
 
 %build
 %{__python2} setup.py build
@@ -91,10 +93,8 @@ rm -fr doc/build/html/.buildinfo
 %files
 %license LICENSE
 %doc README.rst
-%{python2_sitelib}/oslo
 %{python2_sitelib}/oslo_messaging
 %{python2_sitelib}/*.egg-info
-%{python2_sitelib}/*-nspkg.pth
 %{_bindir}/oslo-messaging-zmq-receiver
 
 %files doc
@@ -102,6 +102,9 @@ rm -fr doc/build/html/.buildinfo
 %doc doc/build/html
 
 %changelog
+* Mon Aug 17 2015 Alan Pevec <alan.pevec@redhat.com> 2.2.0-1
+- Update to upstream 2.2.0
+
 * Mon Jun 29 2015 Alan Pevec <alan.pevec@redhat.com> 1.15.0-1
 - Update to upstream 1.15.0
 
