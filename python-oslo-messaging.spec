@@ -19,6 +19,7 @@ Requires:   python-oslo-utils
 Requires:   python-oslo-serialization
 Requires:   python-oslo-service
 Requires:   python-oslo-i18n
+Requires:   python-oslo-log
 Requires:   python-oslo-middleware
 Requires:   python-six >= 1.9.0
 Requires:   python-stevedore
@@ -28,11 +29,14 @@ Requires:   python-qpid
 Requires:   python-babel
 Requires:   python-eventlet
 Requires:   python-cachetools
+Requires:   python-webob
 
 BuildRequires: python2-devel
 BuildRequires: python-setuptools
 BuildRequires: python-pbr
 BuildRequires: python-oslo-service
+BuildRequires: python-cachetools
+BuildRequires: python-futurist
 
 %description
 The Oslo project intends to produce a python library containing
