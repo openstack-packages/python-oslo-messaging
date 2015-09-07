@@ -1,7 +1,7 @@
 %global pypi_name oslo.messaging
 
 Name:       python-oslo-messaging
-Version:    2.2.0
+Version:    2.4.0
 Release:    1%{?dist}
 Summary:    OpenStack common messaging library
 
@@ -106,6 +106,9 @@ rm -fr doc/build/html/.buildinfo
 %doc doc/build/html
 
 %changelog
+* Tue Sep 08 2015 Alan Pevec <alan.pevec@redhat.com> 2.4.0-1
+- Update to upstream 2.4.0
+
 * Mon Aug 17 2015 Alan Pevec <alan.pevec@redhat.com> 2.2.0-1
 - Update to upstream 2.2.0
 
