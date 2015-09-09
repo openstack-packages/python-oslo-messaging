@@ -25,7 +25,8 @@ Requires:   python-six >= 1.9.0
 Requires:   python-stevedore
 Requires:   PyYAML
 Requires:   python-kombu
-Requires:   python-qpid
+# Disable until https://bugzilla.redhat.com/show_bug.cgi?id=1248100 is resolved
+#Requires:   python-qpid
 Requires:   python-babel
 Requires:   python-eventlet
 Requires:   python-cachetools
