@@ -37,6 +37,9 @@ BuildRequires: python-pbr
 BuildRequires: python-oslo-service
 BuildRequires: python-cachetools
 BuildRequires: python-futurist
+BuildRequires: python-redis
+BuildRequires: python-zmq
+
 
 %description
 The Oslo project intends to produce a python library containing
