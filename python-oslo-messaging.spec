@@ -12,8 +12,8 @@ Source0:    http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-master.tar.g
 BuildArch:  noarch
 Requires:   python-setuptools
 Requires:   python-iso8601
-Requires:   python-futurist
-Requires:   python-oslo-config >= 1:1.9.3
+Requires:   python-futurist >= 0.1.2
+Requires:   python-oslo-config >= 2:2.3.0
 Requires:   python-oslo-context
 Requires:   python-oslo-utils
 Requires:   python-oslo-serialization
