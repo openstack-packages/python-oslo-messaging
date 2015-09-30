@@ -102,7 +102,7 @@ rm -fr doc/build/html/.buildinfo
 %doc README.rst
 %{python2_sitelib}/oslo_messaging
 %{python2_sitelib}/*.egg-info
-%{_bindir}/oslo-messaging-zmq-receiver
+%{_bindir}/oslo-messaging-zmq-broker
 
 %files doc
 %license LICENSE
