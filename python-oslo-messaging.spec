@@ -15,6 +15,8 @@ URL:        https://launchpad.net/oslo
 Source0:    http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-master.tar.gz
 BuildArch:  noarch
 
+BuildRequires: git
+
 %package -n python2-%{pkg_name}
 Summary:    OpenStack common messaging library
 %{?python_provide:%python_provide python2-%{pkg_name}}
@@ -201,7 +203,8 @@ by the project should be high quality, stable, consistent and generally
 useful.
 
 %prep
-%setup -q -n %{pypi_name}-%{upstream_version}
+# FIXME: workaround required to build
+%autosetup -n %{pypi_name}-%{upstream_version} -S git
 
 # let RPM handle deps
 rm -rf {test-,}requirements.txt
