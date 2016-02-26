@@ -65,6 +65,7 @@ Requires:   python-kombu >= 3.0.7
 Requires:   python-babel
 Requires:   python-eventlet
 Requires:   python-cachetools
+Requires:   python-pika_pool
 Requires:   python-webob
 
 %description -n python2-%{pkg_name}
