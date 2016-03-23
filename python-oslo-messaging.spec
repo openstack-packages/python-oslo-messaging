@@ -5,14 +5,16 @@
 %global pypi_name oslo.messaging
 %global pkg_name oslo-messaging
 
+%{!?upstream_version: %global upstream_version %{version}%{?milestone}}
+
 Name:       python-oslo-messaging
-Version:    XXX
-Release:    XXX
+Version:    4.5.0
+Release:    1%{?dist}
 Summary:    OpenStack common messaging library
 
 License:    ASL 2.0
 URL:        https://launchpad.net/oslo
-Source0:    http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-master.tar.gz
+Source0:    http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
 BuildArch:  noarch
 
 BuildRequires: git
@@ -267,3 +269,6 @@ rm -rf .testrepository
 %endif
 
 %changelog
+* Wed Mar 23 2016 Haikel Guemar <hguemar@fedoraproject.org> 4.5.0-
+- Update to 4.5.0
+
