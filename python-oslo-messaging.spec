@@ -245,6 +245,7 @@ rm -rf .testrepository
 %{python2_sitelib}/oslo_messaging
 %{python2_sitelib}/*.egg-info
 %{_bindir}/oslo-messaging-zmq-broker
+%{_bindir}/oslo-messaging-zmq-proxy
 %exclude %{python2_sitelib}/oslo_messaging/tests
 
 %files -n python-%{pkg_name}-doc
